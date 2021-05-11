@@ -1,0 +1,20 @@
+.app-body {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto;
+  gap: 1em 0;
+  padding-right: 0.5rem;
+  padding-left: 0.5rem;
+}
+
+.app-body-top {
+  grid-row: 1;
+}
+
+.app-body-mid {
+  grid-row: 2;
+}
+
+.app-body-bottom {
+  grid-row: 3;
+}

@@ -1,15 +1,50 @@
-import React, { useEffect } from "react";
+import { Connection } from "@solana/web3.js";
+import React, { useEffect, useState } from "react";
 import "./App.css";
-import { initWallet, sendMoney } from "./helpers/wallet";
+import Sender from "./components/Sender";
+import TransactionsView from "./components/TransactionView";
+import {
+  getTransactions,
+  TransactionWithSignature,
+} from "./helpers/transactions";
+import { initWallet, WalletAdapter } from "./helpers/wallet";
 
 function App() {
+  const [transactions, setTransactions] = useState<
+    Array<TransactionWithSignature>
+  >();
+  const conn = React.useRef<Connection>();
+  const wall = React.useRef<WalletAdapter>();
+
   useEffect(() => {
-    initWallet().then(() =>
-      sendMoney("4rqzpkNu7LrFqntX45JTzjtTw35JUvwTb4TYNnE7BbA1")
-    );
+    initWallet().then(([connection, wallet]: [Connection, WalletAdapter]) => {
+      conn.current = connection;
+      wall.current = wallet;
+      if (wallet.publicKey) {
+        getTransactions(connection, wallet.publicKey).then((trans) => {
+          setTransactions(trans);
+        });
+      }
+    });
   }, []);
 
-  return <div className="App"></div>;
+  const didSendMoney = () => {
+    getTransactions(conn.current!, wall.current!.publicKey!).then((trans) => {
+      setTransactions(trans);
+    });
+  };
+
+  return (
+    <div className="app-body">
+      <div className="app-body-top">
+        <h3>Send Money</h3>
+        <Sender didSendMoney={didSendMoney} />
+      </div>
+      <div className="app-body-mid">
+        <TransactionsView transactions={transactions} />
+      </div>
+    </div>
+  );
 }
 
 export default App;

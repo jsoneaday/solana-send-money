@@ -20,9 +20,10 @@ const network = "http://devnet.solana.com";
 const connection = new Connection(network, "confirmed");
 const wallet: WalletAdapter = new Wallet("https://www.sollet.io", network);
 
-export async function initWallet() {
+export async function initWallet(): Promise<[Connection, WalletAdapter]> {
   await wallet.connect();
   console.log("wallet publicKey", wallet?.publicKey?.toBase58());
+  return [connection, wallet];
 }
 
 export async function sendMoney(
