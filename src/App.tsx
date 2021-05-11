@@ -10,9 +10,8 @@ import {
 import { initWallet, WalletAdapter } from "./helpers/wallet";
 
 function App() {
-  const [transactions, setTransactions] = useState<
-    Array<TransactionWithSignature>
-  >();
+  const [transactions, setTransactions] =
+    useState<Array<TransactionWithSignature>>();
   const conn = React.useRef<Connection>();
   const wall = React.useRef<WalletAdapter>();
 
@@ -37,7 +36,7 @@ function App() {
   return (
     <div className="app-body">
       <div className="app-body-top">
-        <h3>Send Money</h3>
+        <h3>Send Money on Solana</h3>
         <Sender didSendMoney={didSendMoney} />
       </div>
       <div className="app-body-mid">
