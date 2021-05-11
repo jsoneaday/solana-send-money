@@ -16,9 +16,9 @@ export interface WalletAdapter extends EventEmitter {
   disconnect: () => any;
 }
 
-const network = "http://devnet.solana.com";
-const connection = new Connection(network, "confirmed");
-const wallet: WalletAdapter = new Wallet("https://www.sollet.io", network);
+const cluster = "http://devnet.solana.com";
+const connection = new Connection(cluster, "confirmed");
+const wallet: WalletAdapter = new Wallet("https://www.sollet.io", cluster);
 
 export async function initWallet(): Promise<[Connection, WalletAdapter]> {
   await wallet.connect();
